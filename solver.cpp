@@ -1,26 +1,29 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
-#include <algorithm>
+#include <string>
 
 int main() {
-    int n, m;
-    std::cin >> n >> m;
-    std::vector<int> a(n);
-    for (int i = 0; i < n; ++i) {
-        std::cin >> a[i];
+    std::ifstream file("wordlist.txt");
+    std::vector<std::string> words;
+    std::string word;
+
+    if (!file) {
+        std::cerr << "Error opening wordlist.txt" << std::endl;
+        return 1;
     }
-    
-    std::sort(a.begin(), a.end());
-    
-    int ans = 0;
-    for (int i = 0; i < n; ++i) {
-        if (a[i] > m) {
-            break;
-        }
-        ans++;
-        m -= a[i];
+
+    while (file >> word) {
+        words.push_back(word);
     }
-    
-    std::cout << ans << std::endl;
+
+    file.close();
+
+    // Print loaded words (optional)
+    std::cout << "Loaded " << words.size() << " words." << std::endl;
+    for (const auto& w : words) {
+        std::cout << w << std::endl;
+    }
+
     return 0;
 }
